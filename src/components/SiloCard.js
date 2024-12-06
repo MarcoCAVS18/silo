@@ -10,6 +10,7 @@ const calculateColor = (value, isDarkMode) => {
     return isDarkMode ? "#FFFFFF" : "#000000"; 
   }
   if (value >= 30) return "#62F032"; 
+  if (value >= 20) return "#62F032"; 
   if (value >= 15) return "#FFC107"; 
   if (value >= 7) return "#FF8C00"; 
   return "#EB3845"; 

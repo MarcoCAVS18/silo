@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# Silo Control
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Silo Control Logo](https://res.cloudinary.com/dpxiq34xv/image/upload/v1733488972/Viterra_gordct.svg)
 
-## Available Scripts
+**Silo Control** is a web application built with **React**, **Tailwind CSS**, and **Firestore** to help manage silo meters in real-time. It's designed to give users a simple interface for tracking silo measurements, updating values, and maintaining an efficient overview of all silo statuses.
 
-In the project directory, you can run:
 
-### `npm start`
+## Live Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+You can check out the live version of the application here:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+[**Silo Control - Live Demo**](https://silocheck.netlify.app/)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- **React**: The core library for building the user interface.
+- **Tailwind CSS**: A utility-first CSS framework used for designing the layout and styling.
+- **Firebase Firestore**: A NoSQL cloud database for storing silo meter data in real time.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Real-Time Updates**: Silo meter values are updated in real-time using Firestore.
+- **Dark and Light Mode**: Switch between dark and light themes seamlessly.
+- **Editable Inputs**: Modify the meter values directly from the user interface.
+- **Clipboard Support**: Copy meter values with one click.
+  
 
-### `npm run eject`
+## Screenshot
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![Silo Control App Screenshot - Responsive](https://res.cloudinary.com/dpxiq34xv/image/upload/v1733488888/Mesa_de_trabajo_1_qliflh.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Responsive Design
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The application is fully responsive and works well on different screen sizes. Below is a screenshot that demonstrates how the app adapts to various screen sizes, from mobile devices to desktop monitors.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To run the project locally, follow these steps:
 
-### Code Splitting
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/MarcoCAVS18/silo.git
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. Navigate to the project directory:
+   cd silo-control
 
-### Analyzing the Bundle Size
+3. Install dependencies:
+    npm install 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. Start the development server:
+    npm start
 
-### Making a Progressive Web App
+5. Open your browser and go to http://localhost:3000.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+/public
+  /index.html
+  /manifest.json
+/src
+  /components
+    - DarkModeToggle.js
+    - Footer.js
+    - LastUpdated.js
+    - Navbar.js
+    - SiloCard.js
+    - SiloGrid.js
+  /context
+    - FirebaseContext.js
+    - ThemeContext.js
+  /images
+    - Viterra.svg
+  App.js
+  FirebaseConfig.js
+  index.js
+  index.css
+/tailwind.config.js
+/package.json
+/README.md
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Contributing
 
-### `npm run build` fails to minify
+If you'd like to contribute to this project, feel free to fork the repository, create a branch, and submit a pull request. Please follow the guidelines for coding and write clear commit messages.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+
+Made with ❤️ by Marco.
+
