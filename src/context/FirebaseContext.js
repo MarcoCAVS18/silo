@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { db } from '../FirebaseConfig';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, setDoc, Timestamp } from 'firebase/firestore';
 
 const FirebaseContext = createContext();
 
@@ -27,19 +27,34 @@ export const FirebaseProvider = ({ children }) => {
     loadSilos();
   }, []);
 
-  const updateSiloMeters = async (siloNumber, meters) => {
+  const updateSiloMeters = async (siloNumber, metros) => {
     try {
-      const siloRef = doc(db, 'silo', siloNumber); 
-      await updateDoc(siloRef, { meters, lastUpdated: new Date() }); 
-
-      setSilos(prevSilos => ({
-        ...prevSilos,
-        [siloNumber]: {
-          ...prevSilos[siloNumber],
-          meters,
-          lastUpdated: new Date(),
-        },
-      }));
+      const siloId = `silo-${siloNumber}`;
+      
+      const siloRef = doc(db, 'silo', siloId);
+  
+      const siloDoc = await getDoc(siloRef);
+  
+      if (siloDoc.exists()) {
+        await setDoc(siloRef, {
+          ...siloDoc.data(), 
+          meters: metros, 
+          lastUpdated: Timestamp.now(), 
+        });
+  
+        console.log(`El silo ${siloId} se actualizo en Firestore.`);
+  
+        setSilos((prevSilos) => ({
+          ...prevSilos,
+          [siloId]: {
+            ...prevSilos[siloId],
+            meters: metros,
+            lastUpdated: Timestamp.now(),
+          },
+        }));
+      } else {
+        console.error(`El silo ${siloId} no existe en Firestore.`);
+      }
     } catch (error) {
       console.error("Error al actualizar los metros del silo:", error);
     }

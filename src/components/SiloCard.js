@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Clipboard, Pencil, Check } from 'lucide-react';
 import { useFirebase } from '../context/FirebaseContext';
 
-
 const calculateColor = (value) => {
   if (value === 0.00) return "#FFFFFF"; 
   if (value >= 30) return "#62F032"; 
@@ -29,21 +28,20 @@ const SiloCard = ({ siloNumber, silo }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Calcula el color dinámico para los meters
   const meterColor = calculateColor(meters);
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-colors duration-300 border-2 border-gray-300 dark:border-gray-700 hover:shadow-2xl transform hover:scale-105 h-64 flex flex-col justify-center items-center">
       <div className="flex justify-between items-center w-full mb-4">
         <div className="flex flex-col space-y-6">
-          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-100">
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-100 select-none">
             Cell {siloNumber}
           </h3>
           <div
             className="text-3xl font-bold"
             style={{ color: meterColor }}
           >
-            {meters.toFixed(2)} meters
+            {isNaN(meters) || meters === '' ? '0.00 meters' : `${meters.toFixed(2)} meters`}
           </div>
         </div>
 
@@ -69,31 +67,31 @@ const SiloCard = ({ siloNumber, silo }) => {
       </div>
 
       {isEditing && (
-  <div className="flex flex-col space-y-2 w-full mt-4">
-    <input
-      type="number"
-      inputMode="decimal"
-      value={meters}
-      onChange={(e) => {
-        const value = parseFloat(e.target.value);
-        setMeters(isNaN(value) ? '' : value);
-      }}
-      className="w-full p-3 border rounded dark:bg-gray-700 dark:text-white"
-      placeholder="0.00"
-    />
-    <button
-      onClick={handleSave}
-      className={`px-4 py-2 rounded ${
-        meters !== '' && !isNaN(meters)
-          ? 'bg-green-500 text-white hover:bg-green-600'
-          : 'bg-gray-400 text-gray-700 cursor-not-allowed'
-      }`}
-      disabled={meters === '' || isNaN(meters)}
-    >
-      Save
-    </button>
-  </div>
-)}
+        <div className="flex flex-col space-y-2 w-full mt-4">
+          <input
+            type="number"
+            inputMode="decimal"
+            value={meters}
+            onChange={(e) => {
+              const value = parseFloat(e.target.value);
+              setMeters(isNaN(value) ? '' : value);
+            }}
+            className="w-full p-3 border rounded dark:bg-gray-700 dark:text-white"
+            placeholder="0.00"
+          />
+          <button
+            onClick={handleSave}
+            className={`px-4 py-2 rounded ${
+              meters !== '' && !isNaN(meters)
+                ? 'bg-green-500 text-white hover:bg-green-600'
+                : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+            }`}
+            disabled={meters === '' || isNaN(meters)}
+          >
+            Save
+          </button>
+        </div>
+      )}
     </div>
   );
 };
