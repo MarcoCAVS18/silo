@@ -1,3 +1,5 @@
+
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 @tailwind base;
@@ -6,4 +8,19 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+}
+
+@keyframes meterColor {
+  0% {
+    color: #62F032; /* Verde */
+  }
+  50% {
+    color: #FFC107; /* Amarillo */
+  }
+  80% {
+    color: #FF8C00; /* Naranja */
+  }
+  100% {
+    color: #EB3845; /* Rojo */
+  }
 }

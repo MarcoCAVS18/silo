@@ -1,19 +1,22 @@
 // App.js
+
 import React, { useState, useEffect } from 'react';
+import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
-import { useFirebase } from '../src/context/FirebaseContext';  
+import { useFirebase } from '../src/context/FirebaseContext';
 import Navbar from './components/Navbar';
 import SiloGrid from './components/SiloGrid';
-import LastUpdatedMessage from './components/LastUpdatedMessage'; 
+import LastUpdatedMessage from './components/LastUpdatedMessage';
+import Footer from './components/Footer';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from './FirebaseConfig';
 
 function App() {
   const [lastUpdated, setLastUpdated] = useState(null);
-  const { silos } = useFirebase(); // Esto ahora debería funcionar correctamente
+  const { silos } = useFirebase();
 
   useEffect(() => {
-    const silosRef = collection(db, 'silos');
+    const silosRef = collection(db, 'silo');
     
     const unsubscribe = onSnapshot(silosRef, (snapshot) => {
       const latestUpdate = snapshot.docs
@@ -33,6 +36,7 @@ function App() {
           {lastUpdated && <LastUpdatedMessage lastUpdated={lastUpdated} />}
           <SiloGrid silos={silos} />
         </div>
+        <Footer />
       </div>
     </ThemeProvider>
   );
