@@ -1,9 +1,14 @@
+// SiloCard.js
+
 import React, { useState } from 'react';
 import { Clipboard, Pencil, Check } from 'lucide-react';
 import { useFirebase } from '../context/FirebaseContext';
+import { useTheme } from '../context/ThemeContext';
 
-const calculateColor = (value) => {
-  if (value === 0.00) return "#FFFFFF"; 
+const calculateColor = (value, isDarkMode) => {
+  if (value === 0.00) {
+    return isDarkMode ? "#FFFFFF" : "#000000"; 
+  }
   if (value >= 30) return "#62F032"; 
   if (value >= 15) return "#FFC107"; 
   if (value >= 7) return "#FF8C00"; 
@@ -16,6 +21,7 @@ const SiloCard = ({ siloNumber, silo }) => {
   const [copied, setCopied] = useState(false);
 
   const { updateSiloMeters } = useFirebase();
+  const { isDarkMode } = useTheme(); 
 
   const handleSave = () => {
     updateSiloMeters(siloNumber, meters);
@@ -28,7 +34,7 @@ const SiloCard = ({ siloNumber, silo }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const meterColor = calculateColor(meters);
+  const meterColor = calculateColor(meters, isDarkMode); 
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-colors duration-300 border-2 border-gray-300 dark:border-gray-700 hover:shadow-2xl transform hover:scale-105 h-64 flex flex-col justify-center items-center">
@@ -97,4 +103,3 @@ const SiloCard = ({ siloNumber, silo }) => {
 };
 
 export default SiloCard;
-
