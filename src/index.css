@@ -12,15 +12,15 @@ body {
 
 @keyframes meterColor {
   0% {
-    color: #62F032; /* Verde */
+    color: #62F032; 
   }
   50% {
-    color: #FFC107; /* Amarillo */
+    color: #FFC107;
   }
   80% {
-    color: #FF8C00; /* Naranja */
+    color: #FF8C00; 
   }
   100% {
-    color: #EB3845; /* Rojo */
+    color: #EB3845; 
   }
 }
