@@ -27,28 +27,29 @@ export const FirebaseProvider = ({ children }) => {
     loadSilos();
   }, []);
 
-  const updateSiloMeters = async (siloNumber, metros) => {
+  const updateSiloMeters = async (siloNumber, metros, kind) => {
     try {
       const siloId = `silo-${siloNumber}`;
-      
       const siloRef = doc(db, 'silo', siloId);
   
       const siloDoc = await getDoc(siloRef);
   
       if (siloDoc.exists()) {
         await setDoc(siloRef, {
-          ...siloDoc.data(), 
-          meters: metros, 
-          lastUpdated: Timestamp.now(), 
+          ...siloDoc.data(),
+          meters: metros,
+          kind: kind, // Agregar el nuevo campo
+          lastUpdated: Timestamp.now(),
         });
   
-        console.log(`El silo ${siloId} se actualizo en Firestore.`);
+        console.log(`El silo ${siloId} se actualizó en Firestore.`);
   
         setSilos((prevSilos) => ({
           ...prevSilos,
           [siloId]: {
             ...prevSilos[siloId],
             meters: metros,
+            kind: kind,
             lastUpdated: Timestamp.now(),
           },
         }));
@@ -56,10 +57,10 @@ export const FirebaseProvider = ({ children }) => {
         console.error(`El silo ${siloId} no existe en Firestore.`);
       }
     } catch (error) {
-      console.error("Error al actualizar los metros del silo:", error);
+      console.error("Error al actualizar el silo:", error);
     }
   };
-
+  
   return (
     <FirebaseContext.Provider value={{ silos, updateSiloMeters, loadSilos }}>
       {children}
