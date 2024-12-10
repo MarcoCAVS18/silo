@@ -1,3 +1,5 @@
+// SiloCard.js
+
 import React, { useState } from 'react';
 import { Clipboard, Pencil, Check } from 'lucide-react';
 import { useFirebase } from '../context/FirebaseContext';
@@ -16,14 +18,14 @@ const calculateColor = (value, isDarkMode) => {
 };
 
 const getTagDetails = (meters) => {
-  if (meters <= 4) return { label: "FULL", color: "#EB3845" }; // Red
-  if (meters >= 27) return { label: "EMPTY", color: "#62F032" }; // Green
+  if (meters <= 4) return { label: "FULL", color: "#EB3845" };
+  if (meters >= 27) return { label: "EMPTY", color: "#62F032" };
   return null;
 };
 
-const SiloCard = ({ siloNumber, silo }) => {
-  const [meters, setMeters] = useState(silo.meters || 0);
-  const [kind, setKind] = useState(silo.kind || ""); // Estado para 'kind'
+const SiloCard = ({ block, siloNumber, silo = {} }) => {
+  const [meters, setMeters] = useState(silo.meters ?? 0);
+  const [kind, setKind] = useState(silo.kind ?? "");
   const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -31,9 +33,16 @@ const SiloCard = ({ siloNumber, silo }) => {
   const { isDarkMode } = useTheme();
 
   const handleSave = () => {
+    if (!block) {
+      console.error(`Error: 'block' no está definido al intentar guardar el silo ${siloNumber}.`);
+      return;
+    }
+
     if (meters !== "" && !isNaN(meters) && kind.trim() !== "") {
-      updateSiloMeters(siloNumber, meters, kind); // Guardar metros y kind
+      updateSiloMeters(block, siloNumber, meters, kind);
       setIsEditing(false);
+    } else {
+      console.error(`Error: Datos inválidos para el silo ${siloNumber}.`);
     }
   };
 
@@ -44,7 +53,17 @@ const SiloCard = ({ siloNumber, silo }) => {
   };
 
   const meterColor = calculateColor(meters, isDarkMode);
-  const tagDetails = getTagDetails(meters); // Determina si muestra FULL/EMPTY tag
+  const tagDetails = getTagDetails(meters);
+
+  const cellTitle =
+  block === 'silo'
+    ? `Cell 3${siloNumber.replace('silo-1', '').slice(-2)}`
+    : block === 'block1'
+    ? `Cell 1${siloNumber.replace('silo-1', '').slice(-2)}`
+    : block === 'block2'
+    ? `Cell 2${siloNumber.replace('silo-1', '').slice(-2)}`
+    : `Cell ${siloNumber.replace('silo-', '').slice(-2)}`;
+
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-colors duration-300 border-2 border-gray-300 dark:border-gray-700 hover:shadow-2xl transform hover:scale-105 h-64 flex flex-col justify-between relative">
@@ -52,7 +71,7 @@ const SiloCard = ({ siloNumber, silo }) => {
         <div className="flex justify-between items-center w-full mb-4">
           <div className="flex flex-col space-y-6">
             <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-100 select-none">
-              Cell {siloNumber}
+              {cellTitle}
             </h3>
             <div
               className="text-3xl font-bold select-none"
@@ -85,19 +104,17 @@ const SiloCard = ({ siloNumber, silo }) => {
 
         {isEditing && (
           <div className="flex flex-row space-x-4 w-full mt-4">
-            {/* Input para metros */}
             <input
               type="number"
               inputMode="decimal"
               value={meters}
               onChange={(e) => {
-                const value = Math.min(31, parseFloat(e.target.value)); // Max 31
+                const value = Math.min(31, parseFloat(e.target.value));
                 setMeters(isNaN(value) ? "" : value);
               }}
               className="w-1/2 p-3 border rounded dark:bg-gray-700 dark:text-white"
               placeholder="0.00"
             />
-            {/* Input para kind */}
             <input
               type="text"
               value={kind}
@@ -120,27 +137,23 @@ const SiloCard = ({ siloNumber, silo }) => {
         )}
       </div>
 
-      {/* Mostrar siempre el tag de kind */}
       <div className="absolute bottom-4 w-full flex flex-wrap gap-2 capitalize">
-        {/* Mostrar el tag de 'kind' solo si tiene un valor */}
-  {kind?.trim() && (
-    <Tag
-      label={kind} // Etiqueta con el valor de 'kind'
-      color="#007BFF" // Azul para distinguir
-    />
-  )}
-  {/* Mostrar FULL/EMPTY solo si corresponde */}
-  {tagDetails && (
-    <Tag
-      label={tagDetails.label}
-      color={tagDetails.color}
-    />
-  )}
+        {kind?.trim() && (
+          <Tag
+            label={kind}
+            color="#007BFF"
+          />
+        )}
+        {tagDetails && (
+          <Tag
+            label={tagDetails.label}
+            color={tagDetails.color}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-
-
 export default SiloCard;
+

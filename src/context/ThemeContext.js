@@ -1,10 +1,17 @@
+// ThemeContext.js
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      return savedTheme === 'dark';
+    } else {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
   });
 
   useEffect(() => {

@@ -3,38 +3,51 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
-import { useFirebase } from '../src/context/FirebaseContext';
+import { useFirebase } from './context/FirebaseContext';
 import Navbar from './components/Navbar';
+import BlockSelector from './components/BlockSelector';
 import SiloGrid from './components/SiloGrid';
 import LastUpdatedMessage from './components/LastUpdatedMessage';
 import Footer from './components/Footer';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from './FirebaseConfig';
 
 function App() {
-  const [lastUpdated, setLastUpdated] = useState(null);
-  const { silos } = useFirebase();
+  const [currentBlock, setCurrentBlock] = useState('silo');
+  const [blockData, setBlockData] = useState({});
+  const { loadSilos } = useFirebase();
 
   useEffect(() => {
-    const silosRef = collection(db, 'silo');
-    
-    const unsubscribe = onSnapshot(silosRef, (snapshot) => {
-      const latestUpdate = snapshot.docs
-        .map(doc => doc.data().lastUpdated)
-        .reduce((latest, current) => (current > latest ? current : latest), null);
-      setLastUpdated(latestUpdate);
-    });
+    const loadBlockData = async () => {
+      if (!currentBlock) {
+        console.warn("currentBlock está vacío. No se puede cargar la colección.");
+        return;
+      }
+      const data = await loadSilos(currentBlock);
+      setBlockData(data);
+    };
 
-    return () => unsubscribe();
-  }, []);
+    loadBlockData();
+  }, [currentBlock, loadSilos]);
+
+  const handleBlockChange = (block) => {
+    const collectionMap = {
+      'Block 1': 'block1',
+      'Block 2': 'block2',
+      'Block 3': 'silo',
+      'Block 4': 'block4',
+      'Block 5': 'block5',
+
+    };
+    setCurrentBlock(collectionMap[block] || '');
+  };
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
         <Navbar />
+        <BlockSelector onSelectBlock={handleBlockChange} />
         <div className="container mx-auto p-4">
-          {lastUpdated && <LastUpdatedMessage lastUpdated={lastUpdated} />}
-          <SiloGrid silos={silos} />
+          <LastUpdatedMessage />
+          <SiloGrid blockData={blockData} currentBlock={currentBlock} />
         </div>
         <Footer />
       </div>

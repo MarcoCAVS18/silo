@@ -1,3 +1,5 @@
+// Navbar.js
+
 import React from 'react';
 import logo from '../images/Viterra.svg'; 
 import DarkModeToggle from './DarkModeToggle';
