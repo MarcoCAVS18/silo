@@ -70,93 +70,94 @@ const SiloCard = ({ block, siloNumber, silo = {} }) => {
 
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-colors duration-300 border-2 border-gray-300 dark:border-gray-700 hover:shadow-2xl transform hover:scale-105 h-64 flex flex-col justify-between relative">
-      <div className="flex flex-col justify-center items-center flex-1">
-        <div className="flex justify-between items-center w-full mb-4">
-          <div className="flex flex-col space-y-6">
-            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-100 select-none">
-              {cellTitle}
-            </h3>
-            <div
-              className="text-3xl font-bold select-none"
-              style={{ color: meterColor }}
-            >
-              {isNaN(meters) || meters === "" ? "0.00 meters" : `${meters.toFixed(2)} meters`}
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center space-y-6">
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className="text-gray-700 hover:text-gray-800 flex items-center dark:text-gray-100 dark:hover:text-gray-200"
-            >
-              <Pencil className="mr-1" size={20} />
-            </button>
-
-            <button
-              onClick={handleCopyToClipboard}
-              className="text-gray-700 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 flex items-center"
-            >
-              {copied ? (
-                <Check className="text-green-500" size={24} />
-              ) : (
-                <Clipboard size={24} />
-              )}
-            </button>
+  <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-colors duration-300 border-2 border-gray-300 dark:border-gray-700 hover:shadow-2xl transform hover:scale-105 h-64 flex flex-col justify-between relative pb-16">
+    <div className="flex flex-col justify-center items-center flex-1">
+      <div className="flex justify-between items-center w-full pt-10">
+        <div className="flex flex-col space-y-4">
+          <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-100 select-none">
+            {cellTitle}
+          </h3>
+          <div
+            className="text-3xl font-bold select-none"
+            style={{ color: meterColor }}
+          >
+            {isNaN(meters) || meters === "" ? "0.00 meters" : `${meters.toFixed(2)} meters`}
           </div>
         </div>
 
-        {isEditing && (
-          <div className="flex flex-row space-x-4 w-full mt-4">
-            <input
-              type="number"
-              inputMode="decimal"
-              value={meters}
-              onChange={(e) => {
-                const value = Math.min(31, parseFloat(e.target.value));
-                setMeters(isNaN(value) ? "" : value);
-              }}
-              className="w-1/2 p-3 border rounded dark:bg-gray-700 dark:text-white"
-              placeholder="0.00"
-            />
-            <input
-              type="text"
-              value={kind}
-              onChange={(e) => setKind(e.target.value)}
-              className="w-1/2 p-3 border rounded dark:bg-gray-700 dark:text-white"
-              placeholder="Type kind"
-            />
-            <button
-              onClick={handleSave}
-              className={`px-4 py-2 rounded ${
-                meters !== "" && kind.trim() !== "" && !isNaN(meters)
-                  ? "bg-green-500 text-white hover:bg-green-600"
-                  : "bg-gray-400 text-gray-700 cursor-not-allowed"
-              }`}
-              disabled={meters === "" || kind.trim() === "" || isNaN(meters)}
-            >
-              Save
-            </button>
-          </div>
-        )}
-      </div>
+        <div className="flex flex-col items-center space-y-6">
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="text-gray-700 hover:text-gray-800 flex items-center dark:text-gray-100 dark:hover:text-gray-200"
+          >
+            <Pencil className="mr-1" size={20} />
+          </button>
 
-      <div className="absolute bottom-4 w-full flex flex-wrap gap-2 capitalize">
-        {kind?.trim() && (
-          <Tag
-            label={kind}
-            color="#007BFF"
-          />
-        )}
-        {tagDetails && (
-          <Tag
-            label={tagDetails.label}
-            color={tagDetails.color}
-          />
-        )}
+          <button
+            onClick={handleCopyToClipboard}
+            className="text-gray-700 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 flex items-center"
+          >
+            {copied ? (
+              <Check className="text-green-500" size={24} />
+            ) : (
+              <Clipboard size={24} />
+            )}
+          </button>
+        </div>
       </div>
     </div>
-  );
+
+    {isEditing && (
+      <div className="absolute bottom-4 left-0 right-0 flex flex-row space-x-4 px-6">
+        <input
+          type="number"
+          inputMode="decimal"
+          value={meters}
+          onChange={(e) => {
+            const value = Math.min(31, parseFloat(e.target.value));
+            setMeters(isNaN(value) ? "" : value);
+          }}
+          className="w-1/2 p-3 border rounded dark:bg-gray-700 dark:text-white"
+          placeholder="0.00"
+        />
+        <input
+          type="text"
+          value={kind}
+          onChange={(e) => setKind(e.target.value)}
+          className="w-1/2 p-3 border rounded dark:bg-gray-700 dark:text-white"
+          placeholder="Type kind"
+        />
+        <button
+          onClick={handleSave}
+          className={`px-4 py-2 rounded ${
+            meters !== "" && kind.trim() !== "" && !isNaN(meters)
+              ? "bg-green-500 text-white hover:bg-green-600"
+              : "bg-gray-400 text-gray-700 cursor-not-allowed"
+          }`}
+          disabled={meters === "" || kind.trim() === "" || isNaN(meters)}
+        >
+          Save
+        </button>
+      </div>
+    )}
+
+    <div className="absolute top-4 w-full flex flex-wrap gap-2 capitalize opacity-70">
+      {kind?.trim() && (
+        <Tag
+          label={kind}
+          color="#007BFF"
+        />
+      )}
+      {tagDetails && (
+        <Tag
+          label={tagDetails.label}
+          color={tagDetails.color}
+        />
+      )}
+    </div>
+  </div>
+);
+
 };
 
 export default SiloCard;

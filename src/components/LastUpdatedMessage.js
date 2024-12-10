@@ -29,7 +29,7 @@ const LastUpdatedMessage = () => {
 
   return (
     <div
-      className={`p-4 mb-4 rounded-lg ${
+      className={`p-4 mb-4 rounded-lg border-2 border-gray-300 dark:border-gray-700 ${
         isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-800'
       } shadow-md`}
     >
