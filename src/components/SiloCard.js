@@ -62,6 +62,10 @@ const SiloCard = ({ block, siloNumber, silo = {} }) => {
     ? `Cell 1${siloNumber.replace('silo-1', '').slice(-2)}`
     : block === 'block2'
     ? `Cell 2${siloNumber.replace('silo-1', '').slice(-2)}`
+    : block === 'block4'
+    ? `Cell 4${siloNumber.replace('silo-1', '').slice(-2)}`
+    : block === 'block5'
+    ? `Cell 5${siloNumber.replace('silo-1', '').slice(-2)}`
     : `Cell ${siloNumber.replace('silo-', '').slice(-2)}`;
 
 

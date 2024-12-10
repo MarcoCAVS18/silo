@@ -44,8 +44,9 @@ function App() {
     <ThemeProvider>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
         <Navbar />
-        <BlockSelector onSelectBlock={handleBlockChange} />
+
         <div className="container mx-auto p-4">
+          <BlockSelector onSelectBlock={handleBlockChange} />
           <LastUpdatedMessage />
           <SiloGrid blockData={blockData} currentBlock={currentBlock} />
         </div>
