@@ -5,7 +5,7 @@ const Tag = ({ label, color, cellId, collectionName }) => {
   const { assignTagToCell, isDarkMode } = useFirebase();
 
   const handleAssignTag = () => {
-    assignTagToCell(cellId, label, collectionName); // Asigna el tag al ID específico
+    assignTagToCell(cellId, label, collectionName); 
   };
 
   return (
