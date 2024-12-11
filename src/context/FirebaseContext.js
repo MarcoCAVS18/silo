@@ -1,10 +1,17 @@
-// FirebaseContext.js
-
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { db } from '../FirebaseConfig';
 import { collection, getDocs, doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';  
 
 const FirebaseContext = createContext();
+
+
+const specificCells = [
+  "silo-103", "silo-106", "silo-109", "silo-203", "silo-206", "silo-303",
+  "silo-306", "silo-309", "silo-312", "silo-315", "silo-404", "silo-405",
+  "silo-409", "silo-410", "silo-414", "silo-415", "silo-419", "silo-420",
+  "silo-429", "silo-430", "silo-439", "silo-440", "silo-444", "silo-445",
+  "silo-449", "silo-450"
+];
 
 export const FirebaseProvider = ({ children }) => {
   const [silos] = useState({});
@@ -99,6 +106,10 @@ export const FirebaseProvider = ({ children }) => {
           kind: kind,
           lastUpdated: Timestamp.now(),
         };
+
+        if (specificCells.includes(siloId)) {
+          updatedData.tags = [...new Set([...(siloDoc.data().tags || []), 'INNER'])];
+        }
 
         await setDoc(siloRef, updatedData, { merge: true });
 
