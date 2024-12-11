@@ -9,12 +9,12 @@ const SiloGrid = ({ currentBlock }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsAnimating(true); // Activa la animación al cambiar el bloque
-      const data = await loadSilos(currentBlock); // Carga los datos
+      setIsAnimating(true); 
+      const data = await loadSilos(currentBlock); 
       setBlockData(data);
 
-      // Desactiva la animación después de que termine (0.5s = nueva duración más rápida)
-      setTimeout(() => setIsAnimating(false), 500); // Este es el tiempo en ms
+    
+      setTimeout(() => setIsAnimating(false), 500); 
     };
 
     fetchData();
@@ -28,7 +28,7 @@ const SiloGrid = ({ currentBlock }) => {
           block={currentBlock}
           siloNumber={siloNumber}
           silo={siloData}
-          isAnimating={isAnimating} // Pasamos isAnimating a SiloCard
+          isAnimating={isAnimating} 
         />
       ))}
     </div>
