@@ -1,24 +1,28 @@
-// Tag.js
 
-import React from 'react';
-import { useTheme } from '../context/ThemeContext'; 
+import { useFirebase } from '../context/FirebaseContext';
 
-const Tag = ({ label, color }) => {
-    const { isDarkMode } = useTheme();
+const Tag = ({ label, color, cellId, collectionName }) => {
+  const { assignTagToCell, isDarkMode } = useFirebase();
 
-    return (
-        <div
-            className="flex items-center space-x-2 px-3 py-1 rounded-full font-semibold text-sm select-none"
-            style={{
-                backgroundColor: color,
-                color: isDarkMode ? 'black' : 'white',
-            }}
-        >
-            <span>{label}</span>
-        </div>
-    );
+  const handleAssignTag = () => {
+    assignTagToCell(cellId, label, collectionName); // Asigna el tag al ID específico
+  };
+
+  return (
+    <div
+      className={`flex items-center space-x-2 px-3 py-1 rounded-full font-semibold text-sm select-none cursor-pointer ${
+        isDarkMode ? 'shadow-lg text-gray-200' : 'text-gray-800'
+      }`}
+      style={{
+        backgroundColor: color,
+        color: isDarkMode ? 'white' : 'black',
+      }}
+      onClick={handleAssignTag}
+    >
+      <span>{label}</span>
+    </div>
+  );
 };
 
 export default Tag;
-
 
