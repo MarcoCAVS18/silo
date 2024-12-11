@@ -10,54 +10,43 @@ export const FirebaseProvider = ({ children }) => {
   const [silos] = useState({});
   const [lastUpdated, setLastUpdated] = useState(null);
 
-  useEffect(() => {
-    const loadLastUpdated = async () => {
-      try {
-        const block1Snapshot = await getDocs(collection(db, 'block1'));
-        const block2Snapshot = await getDocs(collection(db, 'block2'));
-        const siloSnapshot = await getDocs(collection(db, 'silo'));
-        const block4Snapshot = await getDocs(collection(db, 'block4'));
-        const block5Snapshot = await getDocs(collection(db, 'block5'));
+useEffect(() => {
+  const loadLastUpdated = async () => {
+    try {
+      const blockSnapshots = [
+        await getDocs(collection(db, 'block1')),
+        await getDocs(collection(db, 'block2')),
+        await getDocs(collection(db, 'silo')),
+        await getDocs(collection(db, 'block4')),
+        await getDocs(collection(db, 'block5')),
+      ];
 
-        let latestUpdate = null;
+      let latestUpdate = null;
 
-        block1Snapshot.forEach(doc => {
-          if (!latestUpdate || doc.data().lastUpdated.seconds > latestUpdate.seconds) {
-            latestUpdate = doc.data().lastUpdated;
+      blockSnapshots.forEach((snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.lastUpdated && data.lastUpdated.seconds) {
+            if (!latestUpdate || data.lastUpdated.seconds > latestUpdate.seconds) {
+              latestUpdate = data.lastUpdated;
+            }
           }
         });
-        block2Snapshot.forEach(doc => {
-          if (!latestUpdate || doc.data().lastUpdated.seconds > latestUpdate.seconds) {
-            latestUpdate = doc.data().lastUpdated;
-          }
-        });
-        siloSnapshot.forEach(doc => {
-          if (!latestUpdate || doc.data().lastUpdated.seconds > latestUpdate.seconds) {
-            latestUpdate = doc.data().lastUpdated;
-          }
-        });
-        block4Snapshot.forEach(doc => {
-          if (!latestUpdate || doc.data().lastUpdated.seconds > latestUpdate.seconds) {
-            latestUpdate = doc.data().lastUpdated;
-          }
-        });
-        block5Snapshot.forEach(doc => {
-          if (!latestUpdate || doc.data().lastUpdated.seconds > latestUpdate.seconds) {
-            latestUpdate = doc.data().lastUpdated;
-          }
-        });
+      });
 
-        if (latestUpdate) {
-          setLastUpdated(latestUpdate);
-        }
-
-      } catch (error) {
-        console.error("Error al cargar la última fecha de actualización:", error.message);
+      if (latestUpdate) {
+        setLastUpdated(latestUpdate);
+      } else {
+        console.warn("No se encontró ninguna fecha de actualización válida.");
       }
-    };
+    } catch (error) {
+      console.error("Error al cargar la última fecha de actualización:", error.message);
+    }
+  };
 
-    loadLastUpdated();
-  }, []);
+  loadLastUpdated();
+}, []);
+
 
   const loadSilos = useCallback(async (block) => {
     if (!block) {
@@ -86,12 +75,12 @@ export const FirebaseProvider = ({ children }) => {
       console.error("Error: 'block' está vacío. No se puede cargar la colección.");
       return;
     }
-
+  
     try {
       const siloId = `${siloNumber}`;
       const siloRef = doc(db, block, siloId);
       const siloDoc = await getDoc(siloRef);
-
+  
       if (siloDoc.exists()) {
         const updatedData = {
           ...siloDoc.data(),
@@ -99,10 +88,15 @@ export const FirebaseProvider = ({ children }) => {
           kind: kind,
           lastUpdated: Timestamp.now(),
         };
-
+  
+        // Actualizar Firestore
         await setDoc(siloRef, updatedData, { merge: true });
-
-        setLastUpdated(Timestamp.now());  
+  
+        // Actualizar el estado local del contexto
+        setLastUpdated(Timestamp.now());
+  
+        // Actualizar los datos locales del silo para forzar un re-render
+        // Puedes agregar aquí la lógica para que el estado "silos" también se actualice, si es necesario
       } else {
         console.error(`El silo ${siloId} no existe en Firestore en el bloque ${block}.`);
       }

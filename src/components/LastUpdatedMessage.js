@@ -10,8 +10,8 @@ const LastUpdatedMessage = () => {
   const [formattedDate, setFormattedDate] = useState('');
 
   useEffect(() => {
-    if (lastUpdated) {
-      const date = new Date(lastUpdated.seconds * 1000); 
+    if (lastUpdated && lastUpdated.seconds) {
+      const date = new Date(lastUpdated.seconds * 1000);
       const formattedDate = date.toLocaleString('en-US', {
         weekday: 'long',
         year: 'numeric',

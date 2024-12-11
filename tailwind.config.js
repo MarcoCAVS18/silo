@@ -12,6 +12,20 @@ export default {
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
       },
+      animation: {
+        slideInUp: 'slideInUp 1s ease-out forwards',
+      },
+      keyframes: {
+        slideInUp: {
+          '0%': {
+            transform: 'translateY(100%)',
+            visibility: 'visible',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+          },
+        },
+      },
       colors: {
         neuphormism: {
           light: {
