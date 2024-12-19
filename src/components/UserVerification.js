@@ -5,9 +5,18 @@ const UserVerification = ({ onVerify, onClose }) => {
   const [password, setPassword] = useState('');
   const { isDarkMode } = useTheme(); 
 
+  const handleVerify = () => {
+    onVerify(password);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleVerify();
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-
       <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-30 backdrop-blur-md z-10"></div>
       
       <div className={`relative w-96 h-80 p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} bg-opacity-30 backdrop-blur-md rounded-3xl border border-white z-20`}>
@@ -28,10 +37,12 @@ const UserVerification = ({ onVerify, onClose }) => {
             placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoFocus
           />
 
           <button
-            onClick={() => onVerify(password)}
+            onClick={handleVerify}
             className={`bg-blue-500 text-white p-3 rounded-2xl w-full mb-2 ${isDarkMode ? 'hover:bg-blue-600' : 'hover:bg-blue-400'}`}
           >
             Verify

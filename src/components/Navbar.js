@@ -3,7 +3,7 @@ import logo from '../images/Viterra.svg';
 import DarkModeToggle from './DarkModeToggle';
 import UserToggle from './UserToggle'; 
 
-const Navbar = ({ onOpenModal }) => {
+const Navbar = ({ onOpenModal, isUserVerified }) => {
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex justify-between items-center transition-colors duration-300">
       <div className="flex items-center">
@@ -11,7 +11,7 @@ const Navbar = ({ onOpenModal }) => {
       </div>
 
       <div className="flex items-center space-x-4">
-        <UserToggle onOpenModal={onOpenModal} />
+        <UserToggle onOpenModal={onOpenModal} isUserVerified={isUserVerified} />
         <DarkModeToggle />
       </div>
     </nav>

@@ -21,7 +21,7 @@ const getTagDetails = (meters) => {
   return null;
 };
 
-const SiloCard = ({ block, siloNumber, silo = {}, isAnimating }) => {
+const SiloCard = ({ block, siloNumber, silo = {}, isAnimating, isUserVerified }) => {
   const [meters, setMeters] = useState(silo.meters ?? 0);
   const [kind, setKind] = useState(silo.kind ?? "");
   const [isEditing, setIsEditing] = useState(false);
@@ -81,10 +81,18 @@ const SiloCard = ({ block, siloNumber, silo = {}, isAnimating }) => {
           </div>
 
           <div className="flex flex-col items-center space-y-6">
-            <button onClick={() => setIsEditing(!isEditing)} className="text-gray-700 hover:text-gray-800 flex items-center dark:text-gray-100 dark:hover:text-gray-200">
-              {isEditing ? <X className="mr-1" size={20} /> : <Pencil className="mr-1" size={20} />}
-            </button>
-            <button onClick={handleCopyToClipboard} className="text-gray-700 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 flex items-center">
+            {isUserVerified && (
+              <button 
+                onClick={() => setIsEditing(!isEditing)} 
+                className="text-gray-700 hover:text-gray-800 flex items-center dark:text-gray-100 dark:hover:text-gray-200"
+              >
+                {isEditing ? <X className="mr-1" size={20} /> : <Pencil className="mr-1" size={20} />}
+              </button>
+            )}
+            <button 
+              onClick={handleCopyToClipboard} 
+              className="text-gray-700 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 flex items-center"
+            >
               {copied ? <Check className="text-green-500" size={24} /> : <Clipboard size={24} />}
             </button>
           </div>

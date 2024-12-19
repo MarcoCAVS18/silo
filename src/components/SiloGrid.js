@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import SiloCard from './SiloCard';
 import { useFirebase } from '../context/FirebaseContext';
 
-const SiloGrid = ({ currentBlock }) => {
+const SiloGrid = ({ currentBlock, isUserVerified }) => {
   const [blockData, setBlockData] = useState({});
   const [isAnimating, setIsAnimating] = useState(false); 
   const { loadSilos } = useFirebase();
@@ -32,6 +32,7 @@ const SiloGrid = ({ currentBlock }) => {
           siloNumber={siloNumber}
           silo={siloData}
           isAnimating={false} 
+          isUserVerified={isUserVerified}
         />
       ))}
     </div>
