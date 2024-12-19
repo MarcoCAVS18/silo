@@ -11,11 +11,11 @@ import UserVerification from './components/UserVerification';
 import UserToggle from './components/UserToggle';
 
 function App() {
-  const [currentBlock, setCurrentBlock] = useState('block1');
+  const [currentBlock, setCurrentBlock] = useState('block1'); 
   const [blockData, setBlockData] = useState({});
   const { loadSilos } = useFirebase();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUserVerified, setIsUserVerified] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isUserVerified, setIsUserVerified] = useState(false); 
 
   useEffect(() => {
     const loadBlockData = async () => {
@@ -55,9 +55,9 @@ function App() {
       setIsUserVerified(true);
       setIsModalOpen(false);
       localStorage.setItem('password', password);
-      localStorage.setItem('lastVerifiedTime', Date.now());
+      localStorage.setItem('lastVerifiedTime', Date.now()); 
     } else {
-      alert('Contraseña incorrecta');
+      alert('Incorrect password');
     }
   };
 
@@ -67,6 +67,7 @@ function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+        
         <div className="relative z-20">
           <Navbar onOpenModal={handleOpenModal} />
           
@@ -77,7 +78,7 @@ function App() {
           <div className="container mx-auto p-4">
             <BlockSelector onSelectBlock={handleBlockChange} initialBlock="Block 1" />
             <LastUpdatedMessage />
-            <SiloGrid blockData={blockData} currentBlock={currentBlock} isUserVerified={isUserVerified} />
+            <SiloGrid blockData={blockData} currentBlock={currentBlock} />
           </div>
 
           <Footer />
@@ -95,4 +96,5 @@ function App() {
 }
 
 export default App;
+
 

@@ -30,6 +30,20 @@ const SiloCard = ({ block, siloNumber, silo = {}, isAnimating }) => {
   const { updateSiloMeters } = useFirebase();
   const { isDarkMode } = useTheme();
 
+  const cellTitle =
+  block === 'silo'
+  ? `Cell 3${siloNumber.replace('silo-1', '').slice(-2)}`
+  : block === 'block1'
+  ? `Cell 1${siloNumber.replace('silo-1', '').slice(-2)}`
+  : block === 'block2'
+  ? `Cell 2${siloNumber.replace('silo-1', '').slice(-2)}`
+  : block === 'block4'
+  ? `Cell 4${siloNumber.replace('silo-1', '').slice(-2)}`
+  : block === 'block5'
+  ? `Cell 5${siloNumber.replace('silo-1', '').slice(-2)}`
+  : `Cell ${siloNumber.replace('silo-', '').slice(-2)}`;
+
+
   const handleSave = () => {
     if (!block) {
       console.error(`Error: 'block' no está definido al intentar guardar el silo ${siloNumber}.`);
@@ -52,7 +66,6 @@ const SiloCard = ({ block, siloNumber, silo = {}, isAnimating }) => {
   const meterColor = calculateColor(meters, isDarkMode);
   const tagDetails = getTagDetails(meters);
 
-  const cellTitle = `Cell ${siloNumber.replace('silo-', '').slice(-2)}`;
 
   return (
     <div className={`bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-colors duration-300 border-2 border-gray-300 dark:border-gray-700 hover:shadow-2xl transform hover:scale-105 h-64 flex flex-col justify-between relative pb-16 ${isAnimating ? 'slideInUp' : ''}`}>
