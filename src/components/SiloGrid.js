@@ -1,3 +1,5 @@
+// SiloGrid.js
+
 import React, { useEffect, useState } from 'react';
 import SiloCard from './SiloCard';
 import { useFirebase } from '../context/FirebaseContext';
@@ -13,7 +15,6 @@ const SiloGrid = ({ currentBlock }) => {
       const data = await loadSilos(currentBlock); 
       setBlockData(data);
 
-    
       setTimeout(() => setIsAnimating(false), 500); 
     };
 
@@ -21,14 +22,16 @@ const SiloGrid = ({ currentBlock }) => {
   }, [currentBlock, loadSilos]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div 
+      className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ${isAnimating ? 'slideInUp' : ''}`}
+    >
       {Object.entries(blockData).map(([siloNumber, siloData]) => (
         <SiloCard
           key={siloNumber}
           block={currentBlock}
           siloNumber={siloNumber}
           silo={siloData}
-          isAnimating={isAnimating} 
+          isAnimating={false} 
         />
       ))}
     </div>

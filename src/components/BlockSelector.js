@@ -6,9 +6,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const BlockSelector = ({ onSelectBlock, initialBlock = 'Block 1' }) => {
-  const [selectedBlock, setSelectedBlock] = useState(initialBlock); // Bloque seleccionado
+  const [selectedBlock, setSelectedBlock] = useState(initialBlock); 
   const blocks = ['Block 1', 'Block 2', 'Block 3', 'Block 4', 'Block 5'];
-  const swiperRef = useRef(null); // Referencia al Swiper
+  const swiperRef = useRef(null); 
 
   useEffect(() => {
     setSelectedBlock(initialBlock); // Actualiza el bloque inicial si cambia
@@ -16,24 +16,22 @@ const BlockSelector = ({ onSelectBlock, initialBlock = 'Block 1' }) => {
 
   const handleBlockClick = (block, index) => {
     setSelectedBlock(block); // Marca el bloque como seleccionado
-    onSelectBlock(block); // Notifica al padre el bloque seleccionado
+    onSelectBlock(block); 
 
-    // Usa `slideToLoop` para centrar el bloque clickeado
     if (swiperRef.current) {
-      swiperRef.current.slideToLoop(index, 300); // Desplaza al índice en el centro
+      swiperRef.current.slideToLoop(index, 300); 
     }
   };
 
   return (
     <div className="py-4">
-      {/* Swiper para pantallas pequeñas */}
       <div className="sm:hidden">
         <Swiper
-          spaceBetween={20} // Espaciado entre los botones
-          slidesPerView={2.2} // Cantidad de botones visibles
-          centeredSlides={true} // Siempre centra el slide activo
-          loop={true} // Hace que el Swiper sea infinito
-          onSwiper={(swiper) => (swiperRef.current = swiper)} // Guarda referencia del Swiper
+          spaceBetween={20}
+          slidesPerView={2.2}
+          centeredSlides={true} 
+          loop={true} 
+          onSwiper={(swiper) => (swiperRef.current = swiper)} 
         >
           {blocks.map((block, index) => (
             <SwiperSlide key={block}>
@@ -52,7 +50,6 @@ const BlockSelector = ({ onSelectBlock, initialBlock = 'Block 1' }) => {
         </Swiper>
       </div>
 
-      {/* Grid para pantallas grandes */}
       <div className="hidden sm:grid sm:grid-cols-5 gap-4">
         {blocks.map((block, index) => (
           <button

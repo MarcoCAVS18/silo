@@ -89,15 +89,9 @@ useEffect(() => {
           lastUpdated: Timestamp.now(),
         };
   
-        // Actualizar Firestore
         await setDoc(siloRef, updatedData, { merge: true });
-  
-        // Actualizar el estado local del contexto
         setLastUpdated(Timestamp.now());
-  
-        // Actualizar los datos locales del silo para forzar un re-render
-        // Puedes agregar aquí la lógica para que el estado "silos" también se actualice, si es necesario
-      } else {
+        } else {
         console.error(`El silo ${siloId} no existe en Firestore en el bloque ${block}.`);
       }
     } catch (error) {
