@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+@keyframes meterColor {
+  0% {
+    color: #62F032; 
+  }
+  50% {
+    color: #FFC107;
+  }
+  80% {
+    color: #FF8C00; 
+  }
+  100% {
+    color: #EB3845; 
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%); 
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0); 
+    opacity: 1;
+  }
+}
+
+.slideInUp {
+  animation-name: slideInUp;
+  animation-duration: 0.7s; 
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+}
